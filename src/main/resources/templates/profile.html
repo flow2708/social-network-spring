@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head><meta charset="UTF-8"><title>Профиль</title></head>
+<body>
+<h1 th:text="'Профиль: ' + ${user.username}"></h1>
+<p th:text="'Email: ' + ${user.email}"></p>
+<p th:text="'Рейтинг: ' + ${user.socialRating}"></p>
+
+<a th:href="@{/posts/create}">Создать пост</a> |
+<form th:action="@{/logout}" method="post" style="display:inline;">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+  <button type="submit">Выйти</button>
+</form>
+
+<h2>Ваши посты:</h2>
+<div th:if="${posts.isEmpty()}"><p>Нет постов</p></div>
+
+<div th:each="post : ${posts}">
+  <h3 th:text="${post.user.username}"></h3>
+  <p th:text="${post.content}"></p>
+
+  <!-- Если уже лайкнут — форма на unlike -->
+  <div th:if="${likedMap[post.postId]}">
+    <form th:action="@{'/likes/' + ${post.postId} + '/unlike'}" method="post" style="display:inline;">
+      <input type="hidden" name="redirect" value="/profile"/>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <button type="submit">❤️ Убрать лайк</button>
+      <span th:text="${post.likeCount}"></span>
+    </form>
+  </div>
+
+  <!-- Если не лайкнут — форма на like -->
+  <div th:unless="${likedMap[post.postId]}">
+    <form th:action="@{'/likes/' + ${post.postId} + '/like'}" method="post" style="display:inline;">
+      <input type="hidden" name="redirect" value="/profile"/>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <button type="submit">🤍 Поставить лайк</button>
+      <span th:text="${post.likeCount}"></span>
+    </form>
+  </div>
+
+  <a th:href="@{'/comments/' + ${post.postId}}">Комментарии</a>
+</div>
+</body>
+</html>

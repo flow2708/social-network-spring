@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head><meta charset="UTF-8"><title>Создать пост</title></head>
+<body>
+<h1>Создать новый пост</h1>
+<form th:action="@{/posts/create}" th:object="${postRequest}" method="post">
+  <textarea th:field="*{content}" placeholder="Напишите что-нибудь..." required></textarea>
+  <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+  <button type="submit">Опубликовать</button>
+</form>
+</body>
+</html>

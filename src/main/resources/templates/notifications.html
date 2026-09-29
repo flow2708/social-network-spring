@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head><meta charset="UTF-8"><title>Уведомления</title></head>
+<body>
+<h1>Запросы в друзья</h1>
+<div th:if="${senders.isEmpty()}"><p>Нет новых уведомлений</p></div>
+<div th:each="sender : ${senders}">
+  <p th:text="'Запрос от: ' + ${sender}"></p>
+  <form th:action="@{/friendship/accept}" method="post">
+    <input type="hidden" name="sender" th:value="${sender}"/>
+    <button type="submit">Принять</button>
+  </form>
+</div>
+</body>
+</html>

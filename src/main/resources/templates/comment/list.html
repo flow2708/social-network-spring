@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head><meta charset="UTF-8"><title>Комментарии</title></head>
+<body>
+<h1>Комментарии к посту <span th:text="${postId}"></span></h1>
+
+<form th:action="@{'/comments/' + ${postId}}" th:object="${commentRequest}" method="post">
+    <textarea th:field="*{content}" placeholder="Напишите комментарий..." required></textarea>
+    <button type="submit">Отправить</button>
+</form>
+
+<div th:if="${comments.isEmpty()}"><p>Нет комментариев</p></div>
+<div th:each="comment : ${comments}">
+    <h3 th:text="${comment.user.username}"></h3>
+    <p th:text="${comment.content}"></p>
+</div>
+</body>
+</html>
