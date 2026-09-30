@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .rememberMeParameter("remember-me")
                         .rememberMeCookieName("social-remember-me")
                         .useSecureCookie(false)
-                        .alwaysRemember(true)   // <-- без галки, всегда
+                        .alwaysRemember(true)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
